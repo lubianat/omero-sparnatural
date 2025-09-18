@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>OMERO Sparnatural Demo</title>
 
+  <link rel="icon" href="assets/ome-sparql-logo.svg" type="image/svg+xml">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -24,9 +25,12 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
-      <a class="navbar-brand" href="#">OMERO Sparnatural Demo</a>
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <img src="assets/ome-sparql-logo.svg" alt="OMERO-SPARQL Logo" height="30" class="me-2">
+        OMERO Sparnatural Demo
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -34,13 +38,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="https://github.com/lubianat/omero-sparnatural">GitHub</a>
+            <a class="nav-link" href="https://github.com/lubianat/omero-sparnatural" target="_blank">GitHub</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.openmicroscopy.org/omero/">OMERO</a>
+            <a class="nav-link" href="https://www.openmicroscopy.org/omero/" target="_blank">OMERO</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://sparnatural.eu">Sparnatural Home</a>
+            <a class="nav-link" href="https://sparnatural.eu" target="_blank">Sparnatural Home</a>
           </li>
         </ul>
       </div>
@@ -51,8 +55,8 @@
     <p>
       <em>This is a simple demo of a Sparnatural to a sandbox <a href="https://omero-nfdi.uni-muenster.de/vkg/"
           target="_blank">SPARQL endpoint</a> built upon an OMERO server through ONTOP with <a
-          href="https://github.com/German-BioImaging/omero-ontop-mappings" target="_blank">OMERO-ONTOP mappings</a>.
-        integration.</em>
+          href="https://github.com/German-BioImaging/omero-ontop-mappings" target="_blank">OMERO-ONTOP
+          mappings</a>.</em>
     </p>
     <p>
       The data model is managed in an <a href="https://docs.google.com/spreadsheets/d/1uYJ70YQJRBTRL6-UM8mcFQ94HVaBReXg"
@@ -99,14 +103,14 @@
 
   <!-- Footer -->
   <footer class="bg-light text-center text-muted py-4 mt-5">
+
     <p>
+      Supported by <a href="https://gerbi-gmb.de/" target="_blank">German BioImaging</a>.
+    </p>
+    <p class="small">
+      Development by <a href="https://gerbi-gmb.de" target="_blank">Tiago Lubiana</a> |
       Sandbox provided by <a href="https://micropop.evolbio.mpg.de/people/carsten-fortmann-grote/" target="_blank">
-        Carsten Fortmann-Grote</a> |
-      <a href="https://omero-nfdi.uni-muenster.de/vkg/" target="_blank">OMERO-ONTOP SPARQL Sandbox</a>
-    </p>
-    <p>
-      Development supported by <a href="https://gerbi-gmb.de/" target="_blank">German BioImaging</a>.
-    </p>
+        Carsten Fortmann-Grote</a> </p>
     <p class="small">
       Built with
       <a href="https://sparnatural.eu" target="_blank">Sparnatural</a>

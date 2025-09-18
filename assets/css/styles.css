@@ -4,4 +4,137 @@
 
 :root {
   --bs-body-bg: var(--bs-gray-100);
+
+
+}
+
+.navbar {
+  background-color: #bcd1df;
+}
+
+
+
+/* Overriding Sparnatural */
+
+.yasqe,
+.Sparnatural,
+.SparnaturalForm,
+.select2-container--default,
+.btn-primary,
+.tippy-box {
+  /**
+   * Color of the criteria arrows (primary teal, anchors against light navbar)
+   **/
+  --primary-color-main: #1a8d78;
+
+  /**
+   * Color of the "unselect" buttons in criterias (darker teal for emphasis)
+   **/
+  --primary-color-important: #146c5c;
+
+  /**
+   * Even darker important for emphasis; not used in base Sparnatural
+   **/
+  --primary-color-important-darker: #10574a;
+
+  /**
+   * Color of the bottom : folded variable selector, and of a selected value in a criteria (muted teal)
+   **/
+  --primary-color-medium: #7fc3b3;
+
+  /**
+   * variable selector background & tooltip background (pale aqua that blends with navbar tone)
+   **/
+  --primary-color-light: #d9f0eb;
+
+  /** 
+   * Color of the options arrow (secondary cyan-blue, lighter than teal for distinction)
+   **/
+  --secondary-color-main: #3caed8;
+
+  /** 
+   * Color of the highlight of arrows (slightly darker cyan)
+   **/
+  --secondary-color-important: #158bb6;
+
+  /**
+   * Color of the options arrow when not selected (pastel blue close to navbar tone)
+   **/
+  --secondary-color-light: #81a4bb;
+
+  /* Important ternary; not used in base Sparnatural */
+
+  --ternary-color-important: #f01919;
+
+  /**
+   * Color of the service option enabled (ternary coral-red, accent against navbar)
+   **/
+  --ternary-color-main: #e24e4e;
+
+  /**
+   * Color of the hover of autocomplete selection (light coral-pink)
+   **/
+  --ternary-color-light: #e49595;
+
+  /**
+   * Color of variable d&d grip, disabled query button, disabled options
+   **/
+  --silver-color-main: #9fa6ad;
+
+  /**
+   * Light gray for disabled backgrounds
+   **/
+  --silver-color-light: #edf1f4;
+
+  /**
+   * Default text color
+   **/
+  --default-text-color: #2d2d2d;
+
+  /**
+   * Red, Green and Blue components for the background color.
+   * Base teal tone used here, alpha is added per line
+   **/
+  --bg-red: 26;
+  --bg-green: 141;
+  --bg-blue: 120;
+}
+
+/* Overriding Bootstrap */
+
+.btn-primary {
+  border-color: var(--primary-color-main);
+  background-color: var(--primary-color-main);
+  border-radius: 30px;
+
+  transition: color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  /* same as Bootstrap */
+}
+
+.btn-primary:hover {
+  border-color: var(--primary-color-important);
+  background-color: var(--primary-color-important);
+}
+
+.btn-primary:active,
+.btn-primary:visited {
+  border-color: var(--primary-color-important) !important;
+  background-color: var(--primary-color-important-darker) !important;
+}
+
+/* Overriding YASGUI */
+
+.yasqe .cm-string-2 {
+  color: var(--ternary-color-important);
+}
+
+.yasqe .cm-keyword {
+  color: var(--primary-color-important-darker);
+}
+
+.yasqe .cm-atom {
+  color: var(--secondary-color-important);
 }
