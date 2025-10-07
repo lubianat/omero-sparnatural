@@ -1,0 +1,149 @@
+{
+    "queryType": "SELECT",
+    "distinct": true,
+    "variables": [
+        {
+            "expression": {
+                "type": "aggregate",
+                "aggregation": "sample",
+                "distinct": true,
+                "expression": {
+                    "termType": "Variable",
+                    "value": "Study_1"
+                }
+            },
+            "variable": {
+                "termType": "Variable",
+                "value": "Study_1_sample"
+            }
+        },
+        {
+            "termType": "Variable",
+            "value": "OrganismBinomial_2"
+        }
+    ],
+    "type": "query",
+    "where": [
+        {
+            "type": "bgp",
+            "triples": [
+                {
+                    "subject": {
+                        "termType": "Variable",
+                        "value": "Study_1"
+                    },
+                    "predicate": {
+                        "termType": "NamedNode",
+                        "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+                        "prefixes": {}
+                    },
+                    "object": {
+                        "termType": "NamedNode",
+                        "value": "https://data.example.com/ontologies/sparnatural-config/Study"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "optional",
+            "patterns": [
+                {
+                    "type": "bgp",
+                    "triples": [
+                        {
+                            "subject": {
+                                "termType": "Variable",
+                                "value": "Study_1"
+                            },
+                            "predicate": {
+                                "termType": "NamedNode",
+                                "value": "https://data.example.com/ontologies/sparnatural-config/label"
+                            },
+                            "object": {
+                                "termType": "Variable",
+                                "value": "Study_1_label"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "bgp",
+            "triples": [
+                {
+                    "subject": {
+                        "termType": "Variable",
+                        "value": "Study_1"
+                    },
+                    "predicate": {
+                        "termType": "NamedNode",
+                        "value": "https://data.example.com/ontologies/sparnatural-config/organism"
+                    },
+                    "object": {
+                        "termType": "Variable",
+                        "value": "OrganismBinomial_2"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "service",
+            "name": {
+                "termType": "NamedNode",
+                "value": "https://qlever.cs.uni-freiburg.de/api/wikidata"
+            },
+            "silent": false,
+            "patterns": [
+                {
+                    "type": "bgp",
+                    "triples": [
+                        {
+                            "subject": {
+                                "termType": "Variable",
+                                "value": "OrganismBinomial_2"
+                            },
+                            "predicate": {
+                                "termType": "NamedNode",
+                                "value": "https://data.example.com/ontologies/sparnatural-config/Wikidata_has_organism_name"
+                            },
+                            "object": {
+                                "termType": "Variable",
+                                "value": "WikidataTaxonID_4"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "bgp",
+                    "triples": [
+                        {
+                            "subject": {
+                                "termType": "Variable",
+                                "value": "WikidataTaxonID_4"
+                            },
+                            "predicate": {
+                                "termType": "NamedNode",
+                                "value": "https://data.example.com/ontologies/sparnatural-config/organismParentTaxon"
+                            },
+                            "object": {
+                                "termType": "NamedNode",
+                                "value": "http://www.wikidata.org/entity/Q756"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "prefixes": {},
+    "limit": 1000,
+    "group": [
+        {
+            "expression": {
+                "termType": "Variable",
+                "value": "OrganismBinomial_2"
+            }
+        }
+    ]
+}

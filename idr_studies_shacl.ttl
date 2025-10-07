@@ -1,0 +1,128 @@
+@prefix schema: <http://schema.org/> .
+@prefix volipi: <http://data.sparna.fr/ontologies/volipi#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ome: <http://www.openmicroscopy.org/Schemas/OME/2016-06#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skosthes: <http://purl.org/iso25964/skos-thes#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix annotation: <http://www.openmicroscopy.org/ns/default/> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix xls2rdf: <https://xls2rdf.sparna.fr/vocabulary#> .
+@prefix this: <https://data.example.com/ontologies/sparnatural-config/> .
+@prefix core: <http://data.sparna.fr/ontologies/sparnatural-config-core#> .
+@prefix datasources: <http://data.sparna.fr/ontologies/sparnatural-config-datasources#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
+@prefix sd: <http://www.w3.org/ns/sparql-service-description#> . 
+
+
+<https://data.mydomain.com/ontologies/sparnatural-config> a owl:Ontology;
+  dct:source <https://docs.google.com/spreadsheets/d/1oTs0TQ9yEhW2uuFPg8kFbIxM-zfm0pK_>;
+  dct:format <https://xls2rdf.sparna.fr/rest/convert?url=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1oTs0TQ9yEhW2uuFPg8kFbIxM-zfm0pK_%2Fexport%3Fformat%3Dxlsx&noPostProcessings=true> .
+
+this:Study a sh:NodeShape;
+  sh:order "1"^^xsd:integer;
+  volipi:iconName "fa-solid fa-image";
+  sh:targetClass ome:Study;
+  rdfs:label "Study"@en;
+  sh:description "A study on IDR"@en;
+  sh:property this:organism, this:label .
+
+
+
+
+this:organism sh:path annotation:Organism;
+  sh:node this:OrganismBinomial ;
+  sh:nodeKind sh:Literal;
+  sh:order "1";
+  sh:name "organism"@en;
+  sh:description "An organism on this study"@en;
+  dash:searchWidget core:ListProperty;
+  core:enableNegation "true"^^xsd:boolean;
+  datasources:treeRootsDatasource "true" .
+
+this:OrganismBinomial a sh:NodeShape;
+  sh:property this:Wikidata_has_organism_name . 
+
+
+
+this:label sh:path rdfs:label;
+  sh:nodeKind sh:Literal;
+  sh:name "label"@en .
+
+
+# The property being an inverse and linking to the Wikidata item
+# Note the use of inversePath
+this:Wikidata_has_organism_name sh:path [ sh:inversePath wdt:P225 ] ;
+  sh:name "is the taxon name of"@en;
+  dash:searchWidget core:AutocompleteProperty;
+  datasources:datasource this:search_taxa_in_qlever;
+  sh:nodeKind sh:IRI;
+  sh:node this:WikidataTaxonID;
+  core:sparqlService [sd:endpoint <https://qlever.cs.uni-freiburg.de/api/wikidata> ] .
+
+this:organismParentTaxon sh:path [sh:zeroOrMorePath wdt:P171] ;
+  sh:name "has as parent taxon"@en;
+  dash:searchWidget core:AutocompleteProperty;
+  datasources:datasource this:search_taxa_in_qlever;
+  sh:nodeKind sh:IRI;
+  sh:node this:WikidataTaxonID;
+  core:sparqlService [sd:endpoint <https://qlever.cs.uni-freiburg.de/api/wikidata> ] .
+
+this:WikidataTaxonID a sh:NodeShape;
+  sh:property this:organismParentTaxon .
+
+
+
+this:search_taxa_in_qlever a datasources:SPARQLQuery;
+  datasources:queryString """
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+SELECT DISTINCT ?uri ?label
+WHERE {
+
+  {
+   SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {
+  SELECT DISTINCT ?uri ?label WHERE {
+    ?uri wdt:P31 wd:Q16521 .
+    ?uri wdt:P225 ?label . 
+    FILTER(CONTAINS(?label, \"$key\")) 
+
+    } LIMIT 10
+  } }
+}
+ORDER BY ?label
+""";
+  rdfs:comment "A query that will search in labels using contains function, first in the user language but will default to French."@en .
+
+
+this:query_search_label_contains_langfr a datasources:SPARQLQuery;
+  datasources:queryString """SELECT DISTINCT ?uri ?label
+WHERE {
+ ?domain a $domain .
+ ?domain $property ?uri .
+ ?uri a $range .
+ ?uri $labelPath ?label .
+ FILTER(isIRI(?uri))
+ FILTER(CONTAINS(LCASE(STR(?label)), LCASE(\"$key\"))) 
+ FILTER(lang(?label) = '' || lang(?label) = \"fr\")
+} 
+ORDER BY UCASE(?label)
+LIMIT 50""";
+  rdfs:comment "A query that will search in labels using contains function, first in the user language but will default to French."@en .
