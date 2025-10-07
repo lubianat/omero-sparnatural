@@ -12,18 +12,18 @@ document.querySelector("#displayEndpoint").textContent = sparnatural.getAttribut
 // init yasQE query editor
 const yasqe = new Yasqe(document.getElementById("yasqe"), {
 	requestConfig: {
-	  // make sure the endpoint is the same as sparnatural
-	  endpoint: sparnatural.getAttribute("endpoint"),
-	  method: "GET",
-	  header: {}
+		// make sure the endpoint is the same as sparnatural
+		endpoint: sparnatural.getAttribute("endpoint"),
+		method: "GET",
+		header: {}
 	},
-	copyEndpointOnNewTab: false  
+	copyEndpointOnNewTab: false
 });
 
 // init yasR result display
 // register a specific plugin that is capable of displaying clikable label + URI
-Yasr.registerPlugin("TableX",SparnaturalYasguiPlugins.TableX);
-Yasr.registerPlugin("Grid",SparnaturalYasguiPlugins.GridPlugin);
+Yasr.registerPlugin("TableX", SparnaturalYasguiPlugins.TableX);
+Yasr.registerPlugin("Grid", SparnaturalYasguiPlugins.GridPlugin);
 delete Yasr.plugins['table'];
 
 const yasr = new Yasr(document.getElementById("yasr"), {
@@ -32,7 +32,7 @@ const yasr = new Yasr(document.getElementById("yasr"), {
 });
 
 // link yasqe and yasr
-yasqe.on("queryResponse", function(_yasqe, response, duration) {
+yasqe.on("queryResponse", function (_yasqe, response, duration) {
 	yasr.setResponse(response, duration);
 	// when response is received, enable the button
 	sparnatural.enablePlayBtn();
@@ -42,11 +42,11 @@ yasqe.on("queryResponse", function(_yasqe, response, duration) {
 sparnatural.addEventListener("init", (event) => {
 	// notify the specification to yasr plugins
 	for (const plugin in yasr.plugins) {
-	  if (yasr.plugins[plugin].notifyConfiguration) {
-	    yasr.plugins[plugin].notifyConfiguration(
-	      event.detail.config
-	    );
-	  }
+		if (yasr.plugins[plugin].notifyConfiguration) {
+			yasr.plugins[plugin].notifyConfiguration(
+				event.detail.config
+			);
+		}
 	}
 });
 
@@ -62,9 +62,64 @@ sparnatural.addEventListener("queryUpdated", (event) => {
 
 	// notify the query to yasr plugins
 	for (const plugin in yasr.plugins) {
-	  if (yasr.plugins[plugin].notifyQuery) {
-	    yasr.plugins[plugin].notifyQuery(event.detail.queryJson);
-	  }
+		if (yasr.plugins[plugin].notifyQuery) {
+			yasr.plugins[plugin].notifyQuery(event.detail.queryJson);
+		}
+	}
+});
+
+// --- Patch duplicated SERVICE blocks ---
+// Purpose: flatten nested SERVICE <url> { ... SERVICE <same url> { ... } ... }
+// while keeping indentation readable for YasQE.
+
+function flattenDuplicateServices(query) {
+	// Work on a copy
+	let cleaned = query;
+
+	// Regex to detect nested SERVICE with the same endpoint
+	const servicePattern = /SERVICE\s*<([^>]+)>\s*\{\s*([^{}]*?)\s*SERVICE\s*<\1>\s*\{([^{}]*)\}\s*\}/gis;
+
+	// Repeat until all duplicates are flattened
+	while (servicePattern.test(cleaned)) {
+		cleaned = cleaned.replace(servicePattern, (match, endpoint, outer, inner) => {
+			// Clean and indent inner content
+			const merged = `${outer.trim()}\n  ${inner.trim()}`;
+			return `SERVICE <${endpoint}> {\n  ${merged}\n}`;
+		});
+	}
+
+	// Normalize indentation: 2 spaces per block level
+	return cleaned
+		.replace(/\{\s*/g, '{\n  ')
+		.replace(/\s*\}/g, '\n}')
+		.replace(/\s*\n\s*\n+/g, '\n')  // remove double blank lines
+		.trim() + '\n';
+}
+
+// Intercept query updates: show the flattened + formatted version in YasQE
+sparnatural.addEventListener("queryUpdated", (event) => {
+	let queryString = sparnatural.expandSparql(event.detail.queryString);
+	queryString = flattenDuplicateServices(queryString); // 👈 patch & format
+	yasqe.setValue(queryString);
+
+	console.log("Sparnatural JSON query structure:");
+	console.dir(event.detail.queryJson);
+
+	for (const plugin in yasr.plugins) {
+		if (yasr.plugins[plugin].notifyQuery) {
+			yasr.plugins[plugin].notifyQuery(event.detail.queryJson);
+		}
+	}
+	sparnatural.lastPatchedQuery = queryString;
+});
+
+// Intercept right before sending to ensure backend also gets the formatted version
+yasqe.on("query", function (_yasqe) {
+	let q = _yasqe.getValue();
+	const patched = flattenDuplicateServices(q);
+	if (patched !== q) {
+		console.info("Flattened duplicate SERVICE blocks before query execution.");
+		_yasqe.setValue(patched);
 	}
 });
 
@@ -72,7 +127,7 @@ sparnatural.addEventListener("queryUpdated", (event) => {
 // see http://docs.sparnatural.eu/Javascript-integration.html#sparnatural-events
 sparnatural.addEventListener("submit", (event) => {
 	// enable loader on button
-	sparnatural.disablePlayBtn() ; 
+	sparnatural.disablePlayBtn();
 	// trigger the query from YasQE
 	yasqe.query();
 });
@@ -85,13 +140,13 @@ sparnatural.addEventListener("reset", (event) => {
 });
 
 // hide/show yasQE
-document.getElementById('sparql-toggle').onclick = function() {
-	if(document.getElementById('yasqe').style.display == 'none') {
-	  document.getElementById('yasqe').style.display = 'block';
-	  yasqe.setValue(yasqe.getValue());
-	  yasqe.refresh();
+document.getElementById('sparql-toggle').onclick = function () {
+	if (document.getElementById('yasqe').style.display == 'none') {
+		document.getElementById('yasqe').style.display = 'block';
+		yasqe.setValue(yasqe.getValue());
+		yasqe.refresh();
 	} else {
-	  document.getElementById('yasqe').style.display = 'none';
+		document.getElementById('yasqe').style.display = 'none';
 	}
-	return false;        
-} ;
+	return false;
+};
