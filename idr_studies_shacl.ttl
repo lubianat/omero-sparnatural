@@ -40,51 +40,77 @@ this:Study a sh:NodeShape;
   sh:targetClass ome:Study;
   rdfs:label "Study"@en;
   sh:description "A study on IDR"@en;
-  sh:property this:organism, this:label .
+  sh:property this:studied_organism, this:label,this:used_imaging_method, this:release_date .
 
 
-
-
-this:organism sh:path annotation:Organism;
-  sh:node this:OrganismBinomial ;
+this:used_imaging_method sh:path annotation:ImagingMethod;
+  sh:node this:ImagingMethod ;
   sh:nodeKind sh:Literal;
   sh:order "1";
-  sh:name "organism"@en;
+  sh:name "used_imaging_method"@en;
   sh:description "An organism on this study"@en;
   dash:searchWidget core:ListProperty;
   core:enableNegation "true"^^xsd:boolean;
   datasources:treeRootsDatasource "true" .
 
-this:OrganismBinomial a sh:NodeShape;
+this:release_date sh:path annotation:ReleaseDate;
+  sh:name "release date"@en;
+  this:nothing "Loading...";
+  sh:nodeKind sh:Literal;
+  sh:datatype core:TimeProperty-Date;
+  sh:node this:Date;
+  dash:searchWidget core:TimeProperty-Date;
+  sh:deactivated "false"^^xsd:boolean;
+  core:enableOptional "true"^^xsd:boolean;
+  core:enableNegation "true"^^xsd:boolean .
+
+this:Date a sh:NodeShape;
+  sh:order "32"^^xsd:integer;
+  volipi:iconName "fa-solid fa-calendar-alt";
+  sh:nodeKind sh:Literal;
+  rdfs:label "Date"@en;
+  sh:description "a date or a year"@en.
+
+this:studied_organism sh:path annotation:Organism;
+  sh:node this:TaxonName ;
+  sh:nodeKind sh:Literal;
+  sh:order "1";
+  sh:name "studied_organism"@en;
+  sh:description "An organism on this study"@en;
+  dash:searchWidget core:ListProperty;
+  core:enableNegation "true"^^xsd:boolean;
+  datasources:treeRootsDatasource "true" .
+
+this:TaxonName a sh:NodeShape;
+  sh:deactivated "true"^^xsd:boolean;
   sh:property this:Wikidata_has_organism_name . 
 
-
+this:ImagingMethod a sh:NodeShape .
 
 this:label sh:path rdfs:label;
   sh:nodeKind sh:Literal;
   sh:name "label"@en .
 
 
-# The property being an inverse and linking to the Wikidata item
-# Note the use of inversePath
 this:Wikidata_has_organism_name sh:path [ sh:inversePath wdt:P225 ] ;
   sh:name "is the taxon name of"@en;
   dash:searchWidget core:AutocompleteProperty;
   datasources:datasource this:search_taxa_in_qlever;
   sh:nodeKind sh:IRI;
-  sh:node this:WikidataTaxonID;
+  sh:node this:WikidataTaxon;
   core:sparqlService [sd:endpoint <https://qlever.cs.uni-freiburg.de/api/wikidata> ] .
 
-this:organismParentTaxon sh:path [sh:zeroOrMorePath wdt:P171] ;
+this:studied_organismParentTaxon sh:path [sh:zeroOrMorePath wdt:P171] ;
   sh:name "has as parent taxon"@en;
   dash:searchWidget core:AutocompleteProperty;
   datasources:datasource this:search_taxa_in_qlever;
   sh:nodeKind sh:IRI;
-  sh:node this:WikidataTaxonID;
+  sh:node this:WikidataTaxon;
   core:sparqlService [sd:endpoint <https://qlever.cs.uni-freiburg.de/api/wikidata> ] .
 
-this:WikidataTaxonID a sh:NodeShape;
-  sh:property this:organismParentTaxon .
+this:WikidataTaxon a sh:NodeShape;
+  sh:deactivated "true"^^xsd:boolean;
+  sh:property this:studied_organismParentTaxon .
 
 
 

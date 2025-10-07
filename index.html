@@ -59,13 +59,20 @@
 
       <p>Queries are sent to <a href="#" id="displayEndpoint">...</a></p>
 
-      uncomment to enable links to load sample queries
       <p>
         Load example queries :
-        <a href="#" onclick="document.querySelector('spar-natural').loadQuery(window['example_1']);return false;">IDR
-          studies about plants (broken because of double federation)</a>
-        |
-        <!-- <a href="#" onclick="document.querySelector('spar-natural').loadQuery(window['example_2']);return false;">example 2</a> -->
+      <ul>
+        <li> <a href="#"
+            onclick="document.querySelector('spar-natural').loadQuery(window['example_1']);return false;">IDR
+            studies about plants (broken because of double federation)</a></li>
+        <li> <a href="#"
+            onclick="document.querySelector('spar-natural').loadQuery(window['example_2']);return false;">Sample
+            IDR studies about non-mammalian animals</a></li>
+        <li> <a href="#"
+            onclick="document.querySelector('spar-natural').loadQuery(window['example_3']);return false;">Studies
+            released
+            after 2020 and the imaging methods they used.</a></li>
+      </ul>
       </p>
 
 
@@ -100,9 +107,7 @@
       Supported by <a href="https://gerbi-gmb.de/" target="_blank">German BioImaging</a>.
     </p>
     <p class="small">
-      Development by <a href="https://gerbi-gmb.de" target="_blank">Tiago Lubiana</a> |
-      Sandbox provided by <a href="https://micropop.evolbio.mpg.de/people/carsten-fortmann-grote/" target="_blank">
-        Carsten Fortmann-Grote</a> </p>
+      Development by <a href="https://tiago.bio.br" target="_blank">Tiago Lubiana</a>
     <p class="small">
       Built with
       <a href="https://sparnatural.eu" target="_blank">Sparnatural</a>
