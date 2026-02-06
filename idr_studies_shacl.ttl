@@ -1,34 +1,16 @@
 @prefix schema: <http://schema.org/> .
 @prefix volipi: <http://data.sparna.fr/ontologies/volipi#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix ome: <http://www.openmicroscopy.org/Schemas/OME/2016-06#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix skosthes: <http://purl.org/iso25964/skos-thes#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
-@prefix qb: <http://purl.org/linked-data/cube#> .
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix doap: <http://usefulinc.com/ns/doap#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix dcat: <http://www.w3.org/ns/dcat#> .
-@prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix annotation: <http://www.openmicroscopy.org/ns/default/> .
-@prefix adms: <http://www.w3.org/ns/adms#> .
-@prefix org: <http://www.w3.org/ns/org#> .
-@prefix xls2rdf: <https://xls2rdf.sparna.fr/vocabulary#> .
 @prefix this: <https://data.example.com/ontologies/sparnatural-config/> .
 @prefix core: <http://data.sparna.fr/ontologies/sparnatural-config-core#> .
 @prefix datasources: <http://data.sparna.fr/ontologies/sparnatural-config-datasources#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dash: <http://datashapes.org/dash#> .
-@prefix dc: <http://purl.org/dc/elements/1.1/> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-@prefix sd: <http://www.w3.org/ns/sparql-service-description#> . 
-
+@prefix dwc: <http://rs.tdwg.org/dwc/terms/> .
+@prefix dwciri: <http://rs.tdwg.org/dwc/iri/> .
 
 <https://data.mydomain.com/ontologies/sparnatural-config> a owl:Ontology;
   dct:source <https://docs.google.com/spreadsheets/d/1oTs0TQ9yEhW2uuFPg8kFbIxM-zfm0pK_>;
@@ -37,25 +19,40 @@
 this:Study a sh:NodeShape;
   sh:order "1"^^xsd:integer;
   volipi:iconName "fa-solid fa-image";
-  sh:targetClass ome:Study;
+  sh:targetClass schema:Dataset;
   rdfs:label "Study"@en;
-  sh:description "A study on IDR"@en;
-  sh:property this:studied_organism, this:label,this:used_imaging_method, this:release_date .
+  sh:description "An IDR study dataset."@en;
+  core:defaultLabelProperty schema:name;
+  sh:property this:label, this:studied_species, this:used_imaging_method, this:release_date .
 
-
-this:used_imaging_method sh:path annotation:ImagingMethod;
-  sh:node this:ImagingMethod ;
+this:label sh:path schema:name;
   sh:nodeKind sh:Literal;
-  sh:order "1";
-  sh:name "used_imaging_method"@en;
-  sh:description "An organism on this study"@en;
-  dash:searchWidget core:ListProperty;
-  core:enableNegation "true"^^xsd:boolean;
-  datasources:treeRootsDatasource "true" .
+  sh:order "1"^^xsd:integer;
+  sh:name "title"@en;
+  sh:description "Study title."@en .
 
-this:release_date sh:path annotation:ReleaseDate;
+this:studied_species sh:path schema:about;
+  sh:node this:Species;
+  sh:nodeKind sh:IRI;
+  sh:order "2"^^xsd:integer;
+  sh:name "species"@en;
+  sh:description "Species studied in this dataset."@en;
+  dash:searchWidget core:ListProperty;
+  datasources:datasource this:list_species_in_dataset;
+  core:enableNegation "true"^^xsd:boolean .
+
+this:used_imaging_method sh:path dwciri:measurementMethod;
+  sh:node this:ImagingMethod;
+  sh:nodeKind sh:IRI;
+  sh:order "3"^^xsd:integer;
+  sh:name "imaging method"@en;
+  sh:description "Primary imaging method used by this dataset."@en;
+  dash:searchWidget core:ListProperty;
+  datasources:datasource this:list_imaging_methods_in_dataset;
+  core:enableNegation "true"^^xsd:boolean .
+
+this:release_date sh:path schema:datePublished;
   sh:name "release date"@en;
-  this:nothing "Loading...";
   sh:nodeKind sh:Literal;
   sh:datatype core:TimeProperty-Date;
   sh:node this:Date;
@@ -69,86 +66,56 @@ this:Date a sh:NodeShape;
   volipi:iconName "fa-solid fa-calendar-alt";
   sh:nodeKind sh:Literal;
   rdfs:label "Date"@en;
-  sh:description "a date or a year"@en.
+  sh:description "A date or year."@en .
 
-this:studied_organism sh:path annotation:Organism;
-  sh:node this:TaxonName ;
-  sh:nodeKind sh:Literal;
-  sh:order "1";
-  sh:name "studied_organism"@en;
-  sh:description "An organism on this study"@en;
-  dash:searchWidget core:ListProperty;
-  core:enableNegation "true"^^xsd:boolean;
-  datasources:treeRootsDatasource "true" .
-
-this:TaxonName a sh:NodeShape;
+this:Species a sh:NodeShape;
   sh:deactivated "true"^^xsd:boolean;
-  sh:property this:Wikidata_has_organism_name . 
+  sh:targetClass dwc:Taxon;
+  core:defaultLabelProperty dwc:scientificName;
+  sh:property this:species_scientific_name .
 
-this:ImagingMethod a sh:NodeShape .
-
-this:label sh:path rdfs:label;
+this:species_scientific_name sh:path dwc:scientificName;
   sh:nodeKind sh:Literal;
-  sh:name "label"@en .
+  sh:name "scientific name"@en .
 
-
-this:Wikidata_has_organism_name sh:path [ sh:inversePath wdt:P225 ] ;
-  sh:name "is the taxon name of"@en;
-  dash:searchWidget core:AutocompleteProperty;
-  datasources:datasource this:search_taxa_in_qlever;
-  sh:nodeKind sh:IRI;
-  sh:node this:WikidataTaxon;
-  core:sparqlService [sd:endpoint <https://qlever.cs.uni-freiburg.de/api/wikidata> ] .
-
-this:studied_organismParentTaxon sh:path [sh:zeroOrMorePath wdt:P171] ;
-  sh:name "has as parent taxon"@en;
-  dash:searchWidget core:AutocompleteProperty;
-  datasources:datasource this:search_taxa_in_qlever;
-  sh:nodeKind sh:IRI;
-  sh:node this:WikidataTaxon;
-  core:sparqlService [sd:endpoint <https://qlever.cs.uni-freiburg.de/api/wikidata> ] .
-
-this:WikidataTaxon a sh:NodeShape;
+this:ImagingMethod a sh:NodeShape;
   sh:deactivated "true"^^xsd:boolean;
-  sh:property this:studied_organismParentTaxon .
+  sh:targetClass schema:DefinedTerm;
+  core:defaultLabelProperty schema:name;
+  sh:property this:imaging_method_name .
 
+this:imaging_method_name sh:path schema:name;
+  sh:nodeKind sh:Literal;
+  sh:name "method name"@en .
 
-
-this:search_taxa_in_qlever a datasources:SPARQLQuery;
+this:list_species_in_dataset a datasources:SPARQLQuery;
   datasources:queryString """
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX wd: <http://www.wikidata.org/entity/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 
 SELECT DISTINCT ?uri ?label
 WHERE {
-
-  {
-   SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {
-  SELECT DISTINCT ?uri ?label WHERE {
-    ?uri wdt:P31 wd:Q16521 .
-    ?uri wdt:P225 ?label . 
-    FILTER(CONTAINS(?label, \"$key\")) 
-
-    } LIMIT 10
-  } }
+  ?domain a $domain .
+  ?domain $property ?uri .
+  ?uri a dwc:Taxon ;
+       dwc:scientificName ?label .
 }
-ORDER BY ?label
+ORDER BY UCASE(STR(?label))
+LIMIT 500
 """;
-  rdfs:comment "A query that will search in labels using contains function, first in the user language but will default to French."@en .
+  rdfs:comment "List only species IRIs attached to datasets, with scientific names."@en .
 
+this:list_imaging_methods_in_dataset a datasources:SPARQLQuery;
+  datasources:queryString """
+PREFIX schema: <http://schema.org/>
 
-this:query_search_label_contains_langfr a datasources:SPARQLQuery;
-  datasources:queryString """SELECT DISTINCT ?uri ?label
+SELECT DISTINCT ?uri ?label
 WHERE {
- ?domain a $domain .
- ?domain $property ?uri .
- ?uri a $range .
- ?uri $labelPath ?label .
- FILTER(isIRI(?uri))
- FILTER(CONTAINS(LCASE(STR(?label)), LCASE(\"$key\"))) 
- FILTER(lang(?label) = '' || lang(?label) = \"fr\")
-} 
-ORDER BY UCASE(?label)
-LIMIT 50""";
-  rdfs:comment "A query that will search in labels using contains function, first in the user language but will default to French."@en .
+  ?domain a $domain .
+  ?domain $property ?uri .
+  ?uri a schema:DefinedTerm ;
+       schema:name ?label .
+}
+ORDER BY UCASE(STR(?label))
+LIMIT 500
+""";
+  rdfs:comment "List only imaging method terms attached to datasets."@en .
