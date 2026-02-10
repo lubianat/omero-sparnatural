@@ -71,7 +71,10 @@ this:Date a sh:NodeShape;
 
 this:Species a sh:NodeShape;
   sh:deactivated "true"^^xsd:boolean;
+  volipi:iconName "fa-solid fa-dna";
   sh:targetClass dwc:Taxon;
+  rdfs:label "Taxon"@en;
+  sh:description "A taxonomic unit associated with a dataset."@en;
   core:defaultLabelProperty dwc:scientificName;
   sh:property this:species_scientific_name .
 
@@ -82,7 +85,10 @@ this:species_scientific_name sh:path dwc:scientificName;
 
 this:ImagingMethod a sh:NodeShape;
   sh:deactivated "true"^^xsd:boolean;
+  volipi:iconName "fa-solid fa-microscope";
   sh:targetClass schema:DefinedTerm;
+  rdfs:label "Imaging Method"@en;
+  sh:description "An imaging method term used in a dataset."@en;
   core:defaultLabelProperty schema:name;
   sh:property this:imaging_method_name .
 
