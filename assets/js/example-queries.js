@@ -4,6 +4,10 @@ var example_1 = {
     {
       "termType": "Variable",
       "value": "Study_1"
+    },
+    {
+      "termType": "Variable",
+      "value": "Species_2"
     }
   ],
   "order": null,
@@ -11,49 +15,25 @@ var example_1 = {
     {
       "line": {
         "s": "Study_1",
-        "p": "https://data.example.com/ontologies/sparnatural-config/organism",
-        "o": "TaxonName_2",
+        "p": "https://data.example.com/ontologies/sparnatural-config/studied_species",
+        "o": "Species_2",
         "sType": "https://data.example.com/ontologies/sparnatural-config/Study",
-        "oType": "https://data.example.com/ontologies/sparnatural-config/TaxonName",
-        "values": []
-      },
-      "children": [
-        {
-          "line": {
-            "s": "TaxonName_2",
-            "p": "https://data.example.com/ontologies/sparnatural-config/Wikidata_has_organism_name",
-            "o": "WikidataTaxon_4",
-            "sType": "https://data.example.com/ontologies/sparnatural-config/TaxonName",
-            "oType": "https://data.example.com/ontologies/sparnatural-config/WikidataTaxon",
-            "values": []
-          },
-          "children": [
-            {
-              "line": {
-                "s": "WikidataTaxon_4",
-                "p": "https://data.example.com/ontologies/sparnatural-config/organismParentTaxon",
-                "o": "WikidataTaxon_6",
-                "sType": "https://data.example.com/ontologies/sparnatural-config/WikidataTaxon",
-                "oType": "https://data.example.com/ontologies/sparnatural-config/WikidataTaxon",
-                "values": [
-                  {
-                    "label": "Plantae",
-                    "rdfTerm": {
-                      "type": "uri",
-                      "value": "http://www.wikidata.org/entity/Q756"
-                    }
-                  }
-                ]
-              },
-              "children": []
+        "oType": "https://data.example.com/ontologies/sparnatural-config/Species",
+        "values": [
+          {
+            "label": "Arabidopsis thaliana",
+            "rdfTerm": {
+              "type": "uri",
+              "value": "http://purl.obolibrary.org/obo/NCBITaxon_3702"
             }
-          ]
-        }
-      ]
+          }
+        ]
+      },
+      "children": []
     }
   ],
   "limit": 1000
-}
+};
 
 var example_2 = {
   "distinct": true,
@@ -75,7 +55,7 @@ var example_2 = {
     },
     {
       "termType": "Variable",
-      "value": "TaxonName_2"
+      "value": "Species_2"
     }
   ],
   "order": null,
@@ -83,81 +63,44 @@ var example_2 = {
     {
       "line": {
         "s": "Study_1",
-        "p": "https://data.example.com/ontologies/sparnatural-config/organism",
-        "o": "TaxonName_2",
+        "p": "https://data.example.com/ontologies/sparnatural-config/studied_species",
+        "o": "Species_2",
         "sType": "https://data.example.com/ontologies/sparnatural-config/Study",
-        "oType": "https://data.example.com/ontologies/sparnatural-config/TaxonName",
+        "oType": "https://data.example.com/ontologies/sparnatural-config/Species",
         "values": []
       },
-      "children": [
-        {
-          "line": {
-            "s": "TaxonName_2",
-            "p": "https://data.example.com/ontologies/sparnatural-config/Wikidata_has_organism_name",
-            "o": "WikidataTaxon_18",
-            "sType": "https://data.example.com/ontologies/sparnatural-config/TaxonName",
-            "oType": "https://data.example.com/ontologies/sparnatural-config/WikidataTaxon",
-            "values": []
-          },
-          "children": [
-            {
-              "line": {
-                "s": "WikidataTaxon_18",
-                "p": "https://data.example.com/ontologies/sparnatural-config/organismParentTaxon",
-                "o": "WikidataTaxon_20",
-                "sType": "https://data.example.com/ontologies/sparnatural-config/WikidataTaxon",
-                "oType": "https://data.example.com/ontologies/sparnatural-config/WikidataTaxon",
-                "values": [
-                  {
-                    "label": "Animalia",
-                    "rdfTerm": {
-                      "type": "uri",
-                      "value": "http://www.wikidata.org/entity/Q729"
-                    }
-                  }
-                ]
-              },
-              "children": []
+      "children": []
+    },
+    {
+      "line": {
+        "s": "Study_1",
+        "p": "https://data.example.com/ontologies/sparnatural-config/studied_species",
+        "o": "Species_3",
+        "sType": "https://data.example.com/ontologies/sparnatural-config/Study",
+        "oType": "https://data.example.com/ontologies/sparnatural-config/Species",
+        "values": [
+          {
+            "label": "Mus musculus",
+            "rdfTerm": {
+              "type": "uri",
+              "value": "http://purl.obolibrary.org/obo/NCBITaxon_10090"
             }
-          ]
-        },
-        {
-          "line": {
-            "s": "TaxonName_2",
-            "p": "https://data.example.com/ontologies/sparnatural-config/Wikidata_has_organism_name",
-            "o": "WikidataTaxon_22",
-            "sType": "https://data.example.com/ontologies/sparnatural-config/TaxonName",
-            "oType": "https://data.example.com/ontologies/sparnatural-config/WikidataTaxon",
-            "values": []
           },
-          "children": [
-            {
-              "line": {
-                "s": "WikidataTaxon_22",
-                "p": "https://data.example.com/ontologies/sparnatural-config/organismParentTaxon",
-                "o": "WikidataTaxon_24",
-                "sType": "https://data.example.com/ontologies/sparnatural-config/WikidataTaxon",
-                "oType": "https://data.example.com/ontologies/sparnatural-config/WikidataTaxon",
-                "values": [
-                  {
-                    "label": "Mammalia",
-                    "rdfTerm": {
-                      "type": "uri",
-                      "value": "http://www.wikidata.org/entity/Q7377"
-                    }
-                  }
-                ]
-              },
-              "children": []
+          {
+            "label": "Homo sapiens",
+            "rdfTerm": {
+              "type": "uri",
+              "value": "http://purl.obolibrary.org/obo/NCBITaxon_9606"
             }
-          ],
-          "notExists": true
-        }
-      ]
+          }
+        ]
+      },
+      "children": [],
+      "notExists": true
     }
   ],
   "limit": 1000
-}
+};
 
 var example_3 = {
   "distinct": true,
@@ -171,19 +114,8 @@ var example_3 = {
       "value": "Study"
     },
     {
-      "expression": {
-        "type": "aggregate",
-        "aggregation": "group_concat",
-        "distinct": false,
-        "expression": {
-          "termType": "Variable",
-          "value": "ImagingMethod"
-        }
-      },
-      "variable": {
-        "termType": "Variable",
-        "value": "ImagingMethod_group_concat"
-      }
+      "termType": "Variable",
+      "value": "ImagingMethod"
     }
   ],
   "order": "desc",
@@ -219,4 +151,4 @@ var example_3 = {
     }
   ],
   "limit": 1000
-}
+};
