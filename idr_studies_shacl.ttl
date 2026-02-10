@@ -86,12 +86,22 @@ this:Species a sh:NodeShape;
   rdfs:label "Taxon"@en;
   sh:description "A taxonomic unit associated with a dataset."@en;
   core:defaultLabelProperty dwc:scientificName;
-  sh:property this:species_scientific_name .
+  sh:property this:species_scientific_name, this:species_parent_taxon .
 
 this:species_scientific_name sh:path dwc:scientificName;
   sh:nodeKind sh:Literal;
   sh:name "scientific name"@en;
   dash:propertyRole dash:LabelRole .
+
+this:species_parent_taxon sh:path [ sh:oneOrMorePath rdfs:subClassOf ];
+  sh:node this:Species;
+  sh:nodeKind sh:IRI;
+  sh:order "2"^^xsd:integer;
+  sh:name "parent taxon"@en;
+  sh:description "Taxon ancestors in the imported NCBITaxon subset."@en;
+  dash:searchWidget core:ListProperty;
+  datasources:datasource this:list_parent_taxa;
+  core:enableNegation "true"^^xsd:boolean .
 
 this:ImagingMethod a sh:NodeShape;
   sh:deactivated "true"^^xsd:boolean;
@@ -100,12 +110,22 @@ this:ImagingMethod a sh:NodeShape;
   rdfs:label "Imaging Method"@en;
   sh:description "An imaging method term used in a dataset."@en;
   core:defaultLabelProperty schema:name;
-  sh:property this:imaging_method_name .
+  sh:property this:imaging_method_name, this:imaging_method_parent .
 
 this:imaging_method_name sh:path schema:name;
   sh:nodeKind sh:Literal;
   sh:name "method name"@en;
   dash:propertyRole dash:LabelRole .
+
+this:imaging_method_parent sh:path [ sh:oneOrMorePath rdfs:subClassOf ];
+  sh:node this:ImagingMethodParent;
+  sh:nodeKind sh:IRI;
+  sh:order "2"^^xsd:integer;
+  sh:name "parent imaging method"@en;
+  sh:description "Imaging method ancestors in the imported FBBI subset."@en;
+  dash:searchWidget core:ListProperty;
+  datasources:datasource this:list_parent_imaging_methods;
+  core:enableNegation "true"^^xsd:boolean .
 
 this:Thumbnail a sh:NodeShape;
   sh:deactivated "true"^^xsd:boolean;
@@ -113,6 +133,20 @@ this:Thumbnail a sh:NodeShape;
   sh:nodeKind sh:Literal;
   rdfs:label "Thumbnail"@en;
   sh:description "A thumbnail URL associated with a study."@en .
+
+this:ImagingMethodParent a sh:NodeShape;
+  sh:deactivated "true"^^xsd:boolean;
+  volipi:iconName "fa-solid fa-microscope";
+  sh:targetClass owl:Class;
+  rdfs:label "Parent Imaging Method"@en;
+  sh:description "A parent imaging method from the imported FBBI subset."@en;
+  core:defaultLabelProperty rdfs:label;
+  sh:property this:imaging_method_parent_label .
+
+this:imaging_method_parent_label sh:path rdfs:label;
+  sh:nodeKind sh:Literal;
+  sh:name "method name"@en;
+  dash:propertyRole dash:LabelRole .
 
 this:list_species_in_dataset a datasources:SPARQLQuery;
   datasources:queryString """
@@ -159,3 +193,42 @@ ORDER BY UCASE(STR(?label))
 LIMIT 500
 """;
   rdfs:comment "List thumbnail URLs attached to datasets."@en .
+
+this:list_parent_taxa a datasources:SPARQLQuery;
+  datasources:queryString """
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?uri ?label
+WHERE {
+  ?domain a $domain .
+  ?domain rdfs:subClassOf+ ?uri .
+  ?uri a dwc:Taxon .
+  OPTIONAL { ?uri dwc:scientificName ?scientificName . }
+  OPTIONAL { ?uri rdfs:label ?rdfsLabel . }
+  BIND(COALESCE(?scientificName, ?rdfsLabel, STR(?uri)) AS ?label)
+}
+ORDER BY UCASE(STR(?label))
+LIMIT 500
+""";
+  rdfs:comment "List parent taxa linked by rdfs:subClassOf."@en .
+
+this:list_parent_imaging_methods a datasources:SPARQLQuery;
+  datasources:queryString """
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+
+SELECT DISTINCT ?uri ?label
+WHERE {
+  ?domain a $domain .
+  ?domain rdfs:subClassOf+ ?uri .
+  ?uri a owl:Class .
+  OPTIONAL { ?uri schema:name ?schemaName . }
+  OPTIONAL { ?uri rdfs:label ?rdfsLabel . }
+  BIND(COALESCE(?schemaName, ?rdfsLabel, STR(?uri)) AS ?label)
+}
+ORDER BY UCASE(STR(?label))
+LIMIT 500
+""";
+  rdfs:comment "List parent imaging methods linked by rdfs:subClassOf."@en .

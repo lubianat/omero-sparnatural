@@ -168,3 +168,88 @@ var example_3 = {
   ],
   "limit": 1000
 };
+
+
+var example_4 = {
+  "distinct": true,
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "Study_1"
+    },
+    {
+      "termType": "Variable",
+      "value": "ImagingMethod_6"
+    },
+    {
+      "termType": "Variable",
+      "value": "Species_2"
+    }
+  ],
+  "order": null,
+  "branches": [
+    {
+      "line": {
+        "s": "Study_1",
+        "p": "https://data.example.com/ontologies/sparnatural-config/studied_species",
+        "o": "Species_2",
+        "sType": "https://data.example.com/ontologies/sparnatural-config/Study",
+        "oType": "https://data.example.com/ontologies/sparnatural-config/Species",
+        "values": []
+      },
+      "children": [
+        {
+          "line": {
+            "s": "Species_2",
+            "p": "https://data.example.com/ontologies/sparnatural-config/species_parent_taxon",
+            "o": "Species_3",
+            "sType": "https://data.example.com/ontologies/sparnatural-config/Species",
+            "oType": "https://data.example.com/ontologies/sparnatural-config/Species",
+            "values": [
+              {
+                "label": "Bacteria",
+                "rdfTerm": {
+                  "type": "uri",
+                  "value": "http://purl.obolibrary.org/obo/NCBITaxon_2"
+                }
+              }
+            ]
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "line": {
+        "s": "Study_1",
+        "p": "https://data.example.com/ontologies/sparnatural-config/used_imaging_method",
+        "o": "ImagingMethod_6",
+        "sType": "https://data.example.com/ontologies/sparnatural-config/Study",
+        "oType": "https://data.example.com/ontologies/sparnatural-config/ImagingMethod",
+        "values": []
+      },
+      "children": [
+        {
+          "line": {
+            "s": "ImagingMethod_6",
+            "p": "https://data.example.com/ontologies/sparnatural-config/imaging_method_parent",
+            "o": "ImagingMethodParent_7",
+            "sType": "https://data.example.com/ontologies/sparnatural-config/ImagingMethod",
+            "oType": "https://data.example.com/ontologies/sparnatural-config/ImagingMethodParent",
+            "values": [
+              {
+                "label": "light microscopy",
+                "rdfTerm": {
+                  "type": "uri",
+                  "value": "http://purl.obolibrary.org/obo/FBBI_00000345"
+                }
+              }
+            ]
+          },
+          "children": []
+        }
+      ]
+    }
+  ],
+  "limit": 1000
+};
