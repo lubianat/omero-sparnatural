@@ -29,7 +29,8 @@ this:label sh:path schema:name;
   sh:nodeKind sh:Literal;
   sh:order "1"^^xsd:integer;
   sh:name "title"@en;
-  sh:description "Study title."@en .
+  sh:description "Study title."@en;
+  dash:propertyRole dash:LabelRole .
 
 this:studied_species sh:path schema:about;
   sh:node this:Species;
@@ -76,7 +77,8 @@ this:Species a sh:NodeShape;
 
 this:species_scientific_name sh:path dwc:scientificName;
   sh:nodeKind sh:Literal;
-  sh:name "scientific name"@en .
+  sh:name "scientific name"@en;
+  dash:propertyRole dash:LabelRole .
 
 this:ImagingMethod a sh:NodeShape;
   sh:deactivated "true"^^xsd:boolean;
@@ -86,7 +88,8 @@ this:ImagingMethod a sh:NodeShape;
 
 this:imaging_method_name sh:path schema:name;
   sh:nodeKind sh:Literal;
-  sh:name "method name"@en .
+  sh:name "method name"@en;
+  dash:propertyRole dash:LabelRole .
 
 this:list_species_in_dataset a datasources:SPARQLQuery;
   datasources:queryString """
