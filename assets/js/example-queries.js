@@ -116,6 +116,10 @@ var example_3 = {
     {
       "termType": "Variable",
       "value": "ImagingMethod"
+    },
+    {
+      "termType": "Variable",
+      "value": "Thumbnail"
     }
   ],
   "order": "desc",
@@ -144,6 +148,18 @@ var example_3 = {
         "o": "ImagingMethod",
         "sType": "https://data.example.com/ontologies/sparnatural-config/Study",
         "oType": "https://data.example.com/ontologies/sparnatural-config/ImagingMethod",
+        "values": []
+      },
+      "children": [],
+      "optional": true
+    },
+    {
+      "line": {
+        "s": "Study",
+        "p": "https://data.example.com/ontologies/sparnatural-config/study_thumbnail",
+        "o": "Thumbnail",
+        "sType": "https://data.example.com/ontologies/sparnatural-config/Study",
+        "oType": "https://data.example.com/ontologies/sparnatural-config/Thumbnail",
         "values": []
       },
       "children": [],

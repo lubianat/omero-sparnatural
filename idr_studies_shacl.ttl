@@ -23,7 +23,7 @@ this:Study a sh:NodeShape;
   rdfs:label "Study"@en;
   sh:description "An IDR study dataset."@en;
   core:defaultLabelProperty schema:name;
-  sh:property this:label, this:studied_species, this:used_imaging_method, this:release_date .
+  sh:property this:label, this:studied_species, this:used_imaging_method, this:study_thumbnail, this:release_date .
 
 this:label sh:path schema:name;
   sh:nodeKind sh:Literal;
@@ -50,6 +50,16 @@ this:used_imaging_method sh:path dwciri:measurementMethod;
   sh:description "Primary imaging method used by this dataset."@en;
   dash:searchWidget core:ListProperty;
   datasources:datasource this:list_imaging_methods_in_dataset;
+  core:enableNegation "true"^^xsd:boolean .
+
+this:study_thumbnail sh:path schema:thumbnailUrl;
+  sh:node this:Thumbnail;
+  sh:nodeKind sh:Literal;
+  sh:order "4"^^xsd:integer;
+  sh:name "thumbnail"@en;
+  sh:description "Study thumbnail URL."@en;
+  dash:searchWidget core:ListProperty;
+  datasources:datasource this:list_study_thumbnails_in_dataset;
   core:enableNegation "true"^^xsd:boolean .
 
 this:release_date sh:path schema:datePublished;
@@ -97,6 +107,13 @@ this:imaging_method_name sh:path schema:name;
   sh:name "method name"@en;
   dash:propertyRole dash:LabelRole .
 
+this:Thumbnail a sh:NodeShape;
+  sh:deactivated "true"^^xsd:boolean;
+  volipi:iconName "fa-solid fa-image";
+  sh:nodeKind sh:Literal;
+  rdfs:label "Thumbnail"@en;
+  sh:description "A thumbnail URL associated with a study."@en .
+
 this:list_species_in_dataset a datasources:SPARQLQuery;
   datasources:queryString """
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
@@ -128,3 +145,17 @@ ORDER BY UCASE(STR(?label))
 LIMIT 500
 """;
   rdfs:comment "List only imaging method terms attached to datasets."@en .
+
+this:list_study_thumbnails_in_dataset a datasources:SPARQLQuery;
+  datasources:queryString """
+SELECT DISTINCT ?uri ?label
+WHERE {
+  ?domain a $domain .
+  ?domain $property ?uri .
+  FILTER(isLiteral(?uri))
+  BIND(STR(?uri) AS ?label)
+}
+ORDER BY UCASE(STR(?label))
+LIMIT 500
+""";
+  rdfs:comment "List thumbnail URLs attached to datasets."@en .
