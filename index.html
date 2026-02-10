@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>OMERO Sparnatural Demo – IDR studies</title>
+  <title>IDR Sparnatural Demo – foundingGIDE prototype</title>
 
   <link rel="icon" href="assets/ome-sparql-logo.svg" type="image/svg+xml">
   <!-- Bootstrap CSS -->
@@ -29,7 +29,7 @@
     <div class="container">
       <a class="navbar-brand d-flex align-items-center">
         <img src="assets/ome-sparql-logo.svg" alt="OMERO-SPARQL Logo" height="30" class="me-2">
-        OMERO Sparnatural Demo
+        IDR Sparnatural Demo
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,10 +38,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="https://github.com/lubianat/omero-sparnatural" target="_blank">GitHub</a>
+            <a class="nav-link" href="https://idr.openmicroscopy.org/" target="_blank">IDR</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.openmicroscopy.org/omero/" target="_blank">OMERO</a>
+            <a class="nav-link" href="https://founding-gide.eurobioimaging.eu/" target="_blank">foundingGIDE</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/BioImage-Archive/gide-search" target="_blank">GIDE Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/lubianat/idr-sparnatural" target="_blank">GitHub</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="https://sparnatural.eu" target="_blank">Sparnatural Home</a>
@@ -53,9 +59,16 @@
 
   <div class="container my-5">
     <p>
-      <em>This is a simple demo of a Sparnatural to a sandbox OMERO-derived SPARQL endpoint.</em>
-      It is an experiment on advanced metadata search for the <a href="https://idr.openmicroscopy.org/"
-        target="_blank">Image Data Resource (IDR)</a>.
+      <em>This is an IDR Sparnatural demo and prototype developed as part of the <a
+          href="https://founding-gide.eurobioimaging.eu/" target="_blank">foundingGIDE</a> project.</em>
+      It explores advanced metadata search for the <a href="https://idr.openmicroscopy.org/" target="_blank">Image Data
+        Resource (IDR)</a>, using <a href="https://www.researchobject.org/ro-crate/" target="_blank">RO-Crate</a> to
+      convert study metadata into JSON-LD/RDF.
+    </p>
+    <p class="small text-muted">
+      Extended rationale and background are available at <a href="https://github.com/BioImage-Archive/gide-search"
+        target="_blank">BioImage-Archive/gide-search</a>. This prototype will be moved from
+      <code>omero_sparnatural</code> to <code>idr-sparnatural</code>.
     </p>
     <div class="col-lg-12 px-0">
 
@@ -108,17 +121,21 @@
   <footer class="bg-light text-center text-muted py-4 mt-5">
 
     <p>
-      Supported by <a href="https://gerbi-gmb.de/" target="_blank">German BioImaging</a>.
+      Prototype for the <a href="https://founding-gide.eurobioimaging.eu/" target="_blank">foundingGIDE</a> project,
+      supported by <a href="https://gerbi-gmb.de/" target="_blank">German BioImaging</a>.
     </p>
     <p class="small">
       Development by <a href="https://tiago.bio.br" target="_blank">Tiago Lubiana</a>
+    </p>
     <p class="small">
       Built with
       <a href="https://sparnatural.eu" target="_blank">Sparnatural</a>
       (<a href="https://github.com/sparna-git/Sparnatural" target="_blank">source</a>,
       <a href="https://www.gnu.org/licenses/lgpl-3.0.html" target="_blank">LGPL-3.0</a>)
-      and <a href="https://triply.cc/docs/yasgui/" target="_blank">YASGUI</a>. <em>This is in development – feedback
-        welcome (<a href="https://github.com/lubianat/omero-sparnatural">source</a>).</em>
+      and <a href="https://triply.cc/docs/yasgui/" target="_blank">YASGUI</a>.
+      <em>This is in development – feedback welcome
+        (<a href="https://github.com/lubianat/idr-sparnatural" target="_blank">source</a>,
+        <a href="https://github.com/BioImage-Archive/gide-search" target="_blank">rationale and extended info</a>).</em>
     </p>
   </footer>
 
