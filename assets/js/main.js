@@ -5,9 +5,34 @@
 // reference to the sparnatural webcomponent
 const sparnatural = document.querySelector("spar-natural");
 
-// display on the page the endpoint URL with which sparnatural is configured
-document.querySelector("#displayEndpoint").setAttribute("href", sparnatural.getAttribute("endpoint"));
-document.querySelector("#displayEndpoint").textContent = sparnatural.getAttribute("endpoint");
+// Check for endpoint in URL parameters
+const urlParams = new URLSearchParams(window.location.search);
+const endpointParam = urlParams.get('endpoint');
+
+if (endpointParam) {
+  sparnatural.setAttribute('endpoint', endpointParam);
+}
+
+// Set up the endpoint selector
+const endpointSelect = document.getElementById('endpointSelect');
+if (endpointSelect) {
+  // Set initial value based on URL or sparnatural attribute
+  endpointSelect.value = sparnatural.getAttribute('endpoint');
+
+  endpointSelect.addEventListener('change', (event) => {
+    const newEndpoint = event.target.value;
+    const url = new URL(window.location);
+    url.searchParams.set('endpoint', newEndpoint);
+    window.location.href = url.toString();
+  });
+}
+
+// display on the page the endpoint URL with which sparnatural is configured (if element exists)
+const displayEndpoint = document.querySelector("#displayEndpoint");
+if (displayEndpoint) {
+  displayEndpoint.setAttribute("href", sparnatural.getAttribute("endpoint"));
+  displayEndpoint.textContent = sparnatural.getAttribute("endpoint");
+}
 
 // init yasQE query editor
 const yasqe = new Yasqe(document.getElementById("yasqe"), {
