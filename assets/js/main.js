@@ -9,7 +9,16 @@ const sparnatural = document.querySelector("spar-natural");
 const urlParams = new URLSearchParams(window.location.search);
 const endpointParam = urlParams.get('endpoint');
 
-if (endpointParam) {
+function isSafeEndpoint(endpoint) {
+  try {
+    const parsed = new URL(endpoint, window.location.origin);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch (e) {
+    return false;
+  }
+}
+
+if (endpointParam && isSafeEndpoint(endpointParam)) {
   sparnatural.setAttribute('endpoint', endpointParam);
 }
 
