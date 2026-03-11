@@ -225,7 +225,7 @@ var example_4 = {
                 "label": "light microscopy",
                 "rdfTerm": {
                   "type": "uri",
-                  "value": "http://purl.obolibrary.org/obo/FBBI_00000345"
+                  "value": "http://purl.obolibrary.org/obo/FBbi_00000345"
                 }
               }
             ]
