@@ -105,7 +105,7 @@ this:identifier_label sh:path rdfs:label;
 this:Species a sh:NodeShape;
   sh:deactivated "true"^^xsd:boolean;
   volipi:iconName "fa-solid fa-dna";
-  sh:targetClass dwc:Taxon;
+  sh:targetClass schema:Taxon;
   rdfs:label "Taxon"@en;
   sh:description "A taxonomic unit associated with a dataset."@en;
   core:defaultLabelProperty dwc:scientificName;
@@ -179,7 +179,7 @@ SELECT DISTINCT ?uri ?label
 WHERE {
   ?domain a $domain .
   ?domain $property ?uri .
-  ?uri a dwc:Taxon ;
+  ?uri a schema:Taxon ;
        dwc:scientificName ?label .
 }
 ORDER BY UCASE(STR(?label))
@@ -245,7 +245,7 @@ SELECT DISTINCT ?uri ?label
 WHERE {
   ?domain a $domain .
   ?domain rdfs:subClassOf+ ?uri .
-  ?uri a dwc:Taxon .
+  ?uri a schema:Taxon .
   OPTIONAL { ?uri dwc:scientificName ?scientificName . }
   OPTIONAL { ?uri rdfs:label ?rdfsLabel . }
   BIND(COALESCE(?scientificName, ?rdfsLabel, STR(?uri)) AS ?label)
