@@ -174,7 +174,7 @@ this:imaging_method_parent_label sh:path rdfs:label;
 this:list_species_in_dataset a datasources:SPARQLQuery;
   datasources:queryString """
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
-
+PREFIX schema: <http://schema.org/>
 SELECT DISTINCT ?uri ?label
 WHERE {
   ?domain a $domain .
@@ -239,6 +239,7 @@ LIMIT 500
 this:list_parent_taxa a datasources:SPARQLQuery;
   datasources:queryString """
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX schema: <http://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT DISTINCT ?uri ?label
