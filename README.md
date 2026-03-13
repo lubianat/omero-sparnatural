@@ -14,7 +14,7 @@ For the broader rationale and search strategy, see [BioImage-Archive/gide-search
 
 1. The SHACL configuration (`idr_studies_shacl.ttl`) defines which classes and properties appear in the query builder.
 2. Users compose queries visually; Sparnatural translates them to SPARQL.
-3. SPARQL queries are run against endpoints hosted on TriplyDB with a dump for the metadata triples enriched with FBbi and NCBITaxon terms.
+3. SPARQL queries are run against TriplyDB endpoints that host a dump of the metadata triples enriched with FBbi and NCBITaxon terms.
 4. Results are displayed with [YASGUI](https://triply.cc/docs/yasgui/).
 
 ## Previous work
