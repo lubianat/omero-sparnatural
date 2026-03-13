@@ -8,7 +8,7 @@ For the broader rationale and search strategy, see [BioImage-Archive/gide-search
 
 ## Live demo
 
-**<https://german-bioimaging.github.io/idr-sparnatural/>**
+**<https://german-bioimaging.github.io/gide-sparnatural/>**
 
 ## How it works
 
